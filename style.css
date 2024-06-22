@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+#toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+#toolbar button {
+    margin: 5px;
+    padding: 10px;
+    background: #555;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+#toolbar button:hover {
+    background: #777;
+}
+
+#canvas {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #f0f0f0;
+    overflow: auto;
+    cursor: grab;
+}
+
+.draggable {
+    position: absolute;
+    padding: 10px;
+    background: white;
+    border: 1px solid #ddd;
+    cursor: move;
+}
+
+iframe {
+    width: 300px;
+    height: 200px;
+}

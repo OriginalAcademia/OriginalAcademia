@@ -30,6 +30,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function makeResizable(element) {
+        $(element).resizable({
+            stop: saveCanvasState
+        });
+    }
+
     function saveCanvasState() {
         const elements = Array.from(canvas.children).map(element => {
             return {
@@ -73,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 el.style.width = element.style.width;
                 el.style.height = element.style.height;
                 canvas.appendChild(el);
+                makeResizable(el);
             });
         }
     }
@@ -89,6 +96,7 @@ function addText() {
     textElement.style.left = '50px';
     textElement.style.top = '50px';
     canvas.appendChild(textElement);
+    makeResizable(textElement);
     saveCanvasState();
 }
 
@@ -104,6 +112,7 @@ function addImage() {
         imgElement.style.left = '50px';
         imgElement.style.top = '50px';
         canvas.appendChild(imgElement);
+        makeResizable(imgElement);
         saveCanvasState();
     }
 }
@@ -120,6 +129,7 @@ function addIframe() {
         iframeElement.style.width = '300px';
         iframeElement.style.height = '200px';
         canvas.appendChild(iframeElement);
+        makeResizable(iframeElement);
         saveCanvasState();
     }
 }

@@ -6,15 +6,22 @@
     <title>Lienzo Infinito</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <div id="toolbar">
-        <button onclick="addText()">Añadir Texto</button>
-        <button onclick="addImage()">Añadir Imagen</button>
-        <button onclick="addIframe()">Añadir iFrame</button>
-        <button onclick="deleteSelectedElement()">Eliminar Seleccionado</button>
+        <button onclick="addText()"><i class="fas fa-font"></i> Añadir Texto</button>
+        <button onclick="addImage()"><i class="fas fa-image"></i> Añadir Imagen</button>
+        <button onclick="addIframe()"><i class="fas fa-code"></i> Añadir iFrame</button>
+        <button onclick="deleteSelectedElement()"><i class="fas fa-trash-alt"></i> Eliminar Seleccionado</button>
     </div>
     <div id="canvas">
+    </div>
+    <div id="context-menu" class="context-menu">
+        <ul>
+            <li onclick="deleteSelectedElement()"><i class="fas fa-trash-alt"></i> Eliminar</li>
+            <!-- Puedes agregar más opciones aquí -->
+        </ul>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>

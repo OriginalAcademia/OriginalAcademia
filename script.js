@@ -1,9 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('canvas');
+    const contextMenu = document.getElementById('context-menu');
     canvas.addEventListener('mousedown', startDrag);
     canvas.addEventListener('mouseup', stopDrag);
     canvas.addEventListener('mousemove', drag);
     canvas.addEventListener('click', selectElement);
+    canvas.addEventListener('contextmenu', showContextMenu);
+
+    document.addEventListener('click', () => {
+        contextMenu.style.display = 'none';
+    });
 
     loadCanvasState();
 
@@ -44,6 +50,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectedElement.classList.remove('selected');
                 selectedElement = null;
             }
+        }
+    }
+
+    function showContextMenu(event) {
+        event.preventDefault();
+        if (event.target.classList.contains('draggable')) {
+            selectElement(event);
+            contextMenu.style.top = `${event.clientY}px`;
+            contextMenu.style.left = `${event.clientX}px`;
+            contextMenu.style.display = 'block';
+        } else {
+            contextMenu.style.display = 'none';
         }
     }
 

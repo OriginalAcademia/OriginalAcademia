@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let draggingElement = null;
     let selectedElement = null;
+    let undoStack = [];
+    let redoStack = [];
 
     function startDrag(event) {
         if (event.target.classList.contains('draggable')) {
@@ -84,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             };
         });
+        undoStack.push(JSON.stringify(elements));
         localStorage.setItem('canvasState', JSON.stringify(elements));
     }
 
@@ -117,6 +120,54 @@ document.addEventListener('DOMContentLoaded', () => {
                 makeResizable(el);
             });
         }
+    }
+
+    function undo() {
+        if (undoStack.length > 1) {
+            const currentState = undoStack.pop();
+            redoStack.push(currentState);
+            const previousState = undoStack[undoStack.length - 1];
+            restoreCanvasState(previousState);
+        }
+    }
+
+    function redo() {
+        if (redoStack.length > 0) {
+            const nextState = redoStack.pop();
+            undoStack.push(nextState);
+            restoreCanvasState(nextState);
+        }
+    }
+
+    function restoreCanvasState(state) {
+        canvas.innerHTML = '';
+        const elements = JSON.parse(state);
+        elements.forEach(element => {
+            let el;
+            switch (element.type) {
+                case 'div':
+                    el = document.createElement('div');
+                    el.contentEditable = true;
+                    el.innerText = element.content;
+                    break;
+                case 'img':
+                    el = document.createElement('img');
+                    el.src = element.content;
+                    break;
+                case 'iframe':
+                    el = document.createElement('iframe');
+                    el.src = element.content;
+                    break;
+            }
+            el.className = 'draggable';
+            el.style.left = element.style.left;
+            el.style.top = element.style.top;
+            el.style.width = element.style.width;
+            el.style.height = element.style.height;
+            canvas.appendChild(el);
+            makeResizable(el);
+        });
+        localStorage.setItem('canvasState', state);
     }
 
     window.addEventListener('beforeunload', saveCanvasState);

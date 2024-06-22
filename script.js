@@ -340,7 +340,7 @@ function groupElements() {
         saveCanvasState();
         clearSelection();
     }
-}
+} 
 
 function exportCanvas() {
     const data = localStorage.getItem('canvasState');

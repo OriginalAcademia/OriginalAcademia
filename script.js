@@ -367,3 +367,9 @@ function importCanvas(event) {
         reader.readAsText(file);
     }
 }
+
+function clearCanvas() {
+    const canvas = document.getElementById('canvas');
+    canvas.innerHTML = '';
+    saveCanvasState();
+}

@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('canvas');
     const contextMenu = document.getElementById('context-menu');
+    const colorPicker = document.getElementById('colorPicker');
     canvas.addEventListener('mousedown', startDrag);
     canvas.addEventListener('mouseup', stopDrag);
     canvas.addEventListener('mousemove', drag);
@@ -82,7 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     left: element.style.left,
                     top: element.style.top,
                     width: element.style.width,
-                    height: element.style.height
+                    height: element.style.height,
+                    backgroundColor: element.style.backgroundColor || ''
                 }
             };
         });
@@ -116,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 el.style.top = element.style.top;
                 el.style.width = element.style.width;
                 el.style.height = element.style.height;
+                el.style.backgroundColor = element.style.backgroundColor;
                 canvas.appendChild(el);
                 makeResizable(el);
             });
@@ -164,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
             el.style.top = element.style.top;
             el.style.width = element.style.width;
             el.style.height = element.style.height;
+            el.style.backgroundColor = element.style.backgroundColor;
             canvas.appendChild(el);
             makeResizable(el);
         });
@@ -225,5 +229,30 @@ function deleteSelectedElement() {
         selectedElement.remove();
         saveCanvasState();
         selectedElement = null;
+    }
+}
+
+function duplicateElement() {
+    if (selectedElement) {
+        const clone = selectedElement.cloneNode(true);
+        clone.classList.remove('selected');
+        clone.style.left = `${parseInt(clone.style.left) + 20}px`;
+        clone.style.top = `${parseInt(clone.style.top) + 20}px`;
+        canvas.appendChild(clone);
+        makeResizable(clone);
+        saveCanvasState();
+    }
+}
+
+function changeBackgroundColor() {
+    if (selectedElement) {
+        colorPicker.click();
+    }
+}
+
+function setBackgroundColor(color) {
+    if (selectedElement) {
+        selectedElement.style.backgroundColor = color;
+        saveCanvasState();
     }
 }

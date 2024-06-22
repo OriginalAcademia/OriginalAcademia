@@ -10,16 +10,24 @@
 </head>
 <body>
     <div id="toolbar">
-        <button onclick="addText()"><i class="fas fa-font"></i> Añadir Texto</button>
-        <button onclick="addImage()"><i class="fas fa-image"></i> Añadir Imagen</button>
-        <button onclick="addIframe()"><i class="fas fa-code"></i> Añadir iFrame</button>
-        <button onclick="deleteSelectedElement()"><i class="fas fa-trash-alt"></i> Eliminar Seleccionado</button>
-        <button onclick="undo()"><i class="fas fa-undo"></i> Deshacer</button>
-        <button onclick="redo()"><i class="fas fa-redo"></i> Rehacer</button>
-        <button onclick="exportCanvas()"><i class="fas fa-file-export"></i> Exportar</button>
-        <input type="file" id="importFileInput" style="display:none" onchange="importCanvas(event)">
-        <button onclick="document.getElementById('importFileInput').click()"><i class="fas fa-file-import"></i> Importar</button>
-        <button onclick="clearCanvas()"><i class="fas fa-trash"></i> Limpiar Lienzo</button>
+        <div class="tool-group">
+            <button onclick="addText()"><i class="fas fa-font"></i> Texto</button>
+            <button onclick="addImage()"><i class="fas fa-image"></i> Imagen</button>
+            <button onclick="addIframe()"><i class="fas fa-code"></i> iFrame</button>
+        </div>
+        <div class="tool-group">
+            <button onclick="deleteSelectedElement()"><i class="fas fa-trash-alt"></i> Eliminar</button>
+            <button onclick="clearCanvas()"><i class="fas fa-trash"></i> Limpiar</button>
+        </div>
+        <div class="tool-group">
+            <button onclick="undo()"><i class="fas fa-undo"></i> Deshacer</button>
+            <button onclick="redo()"><i class="fas fa-redo"></i> Rehacer</button>
+        </div>
+        <div class="tool-group">
+            <button onclick="exportCanvas()"><i class="fas fa-file-export"></i> Exportar</button>
+            <input type="file" id="importFileInput" style="display:none" onchange="importCanvas(event)">
+            <button onclick="document.getElementById('importFileInput').click()"><i class="fas fa-file-import"></i> Importar</button>
+        </div>
     </div>
     <div id="canvas"></div>
     <div id="context-menu" class="context-menu">

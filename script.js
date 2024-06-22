@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let draggingElement = null;
     let selectedElement = null;
+    let selectedElements = [];
     let undoStack = [];
     let redoStack = [];
 
@@ -45,17 +46,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function selectElement(event) {
         if (event.target.classList.contains('draggable')) {
-            if (selectedElement) {
-                selectedElement.classList.remove('selected');
+            if (event.shiftKey) {
+                if (selectedElements.includes(event.target)) {
+                    event.target.classList.remove('selected');
+                    selectedElements = selectedElements.filter(el => el !== event.target);
+                } else {
+                    event.target.classList.add('selected');
+                    selectedElements.push(event.target);
+                }
+            } else {
+                clearSelection();
+                selectedElement = event.target;
+                selectedElement.classList.add('selected');
+                selectedElements = [selectedElement];
             }
-            selectedElement = event.target;
-            selectedElement.classList.add('selected');
         } else {
-            if (selectedElement) {
-                selectedElement.classList.remove('selected');
-                selectedElement = null;
-            }
+            clearSelection();
         }
+    }
+
+    function clearSelection() {
+        if (selectedElement) {
+            selectedElement.classList.remove('selected');
+        }
+        selectedElements.forEach(el => el.classList.remove('selected'));
+        selectedElements = [];
+        selectedElement = null;
     }
 
     function showContextMenu(event) {
@@ -304,5 +320,50 @@ function setFontColor(color) {
     if (selectedElement) {
         selectedElement.style.color = color;
         saveCanvasState();
+    }
+}
+
+function groupElements() {
+    if (selectedElements.length > 1) {
+        const group = document.createElement('div');
+        group.className = 'draggable';
+        group.style.position = 'absolute';
+        group.style.left = selectedElements[0].style.left;
+        group.style.top = selectedElements[0].style.top;
+
+        selectedElements.forEach(el => {
+            group.appendChild(el);
+        });
+
+        canvas.appendChild(group);
+        makeResizable(group);
+        saveCanvasState();
+        clearSelection();
+    }
+}
+
+function exportCanvas() {
+    const data = localStorage.getItem('canvasState');
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'canvasState.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function importCanvas(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const data = e.target.result;
+            localStorage.setItem('canvasState', data);
+            loadCanvasState();
+        }
+        reader.readAsText(file);
     }
 }

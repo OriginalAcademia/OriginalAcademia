@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('canvas');
     const contextMenu = document.getElementById('context-menu');
     const colorPicker = document.getElementById('colorPicker');
+    const fontColorPicker = document.getElementById('fontColorPicker');
+    const fontSizePicker = document.getElementById('fontSizePicker');
     canvas.addEventListener('mousedown', startDrag);
     canvas.addEventListener('mouseup', stopDrag);
     canvas.addEventListener('mousemove', drag);
@@ -84,7 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     top: element.style.top,
                     width: element.style.width,
                     height: element.style.height,
-                    backgroundColor: element.style.backgroundColor || ''
+                    backgroundColor: element.style.backgroundColor || '',
+                    color: element.style.color || '',
+                    fontSize: element.style.fontSize || '',
+                    fontWeight: element.style.fontWeight || '',
+                    fontStyle: element.style.fontStyle || '',
+                    textDecoration: element.style.textDecoration || ''
                 }
             };
         });
@@ -119,6 +126,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 el.style.width = element.style.width;
                 el.style.height = element.style.height;
                 el.style.backgroundColor = element.style.backgroundColor;
+                el.style.color = element.style.color;
+                el.style.fontSize = element.style.fontSize;
+                el.style.fontWeight = element.style.fontWeight;
+                el.style.fontStyle = element.style.fontStyle;
+                el.style.textDecoration = element.style.textDecoration;
                 canvas.appendChild(el);
                 makeResizable(el);
             });
@@ -168,6 +180,11 @@ document.addEventListener('DOMContentLoaded', () => {
             el.style.width = element.style.width;
             el.style.height = element.style.height;
             el.style.backgroundColor = element.style.backgroundColor;
+            el.style.color = element.style.color;
+            el.style.fontSize = element.style.fontSize;
+            el.style.fontWeight = element.style.fontWeight;
+            el.style.fontStyle = element.style.fontStyle;
+            el.style.textDecoration = element.style.textDecoration;
             canvas.appendChild(el);
             makeResizable(el);
         });
@@ -253,6 +270,39 @@ function changeBackgroundColor() {
 function setBackgroundColor(color) {
     if (selectedElement) {
         selectedElement.style.backgroundColor = color;
+        saveCanvasState();
+    }
+}
+
+function formatText(command) {
+    if (selectedElement && selectedElement.contentEditable === 'true') {
+        document.execCommand(command, false, null);
+        saveCanvasState();
+    }
+}
+
+function changeFontSize() {
+    if (selectedElement && selectedElement.contentEditable === 'true') {
+        fontSizePicker.click();
+    }
+}
+
+function setFontSize(size) {
+    if (selectedElement) {
+        selectedElement.style.fontSize = `${size}px`;
+        saveCanvasState();
+    }
+}
+
+function changeFontColor() {
+    if (selectedElement && selectedElement.contentEditable === 'true') {
+        fontColorPicker.click();
+    }
+}
+
+function setFontColor(color) {
+    if (selectedElement) {
+        selectedElement.style.color = color;
         saveCanvasState();
     }
 }

@@ -23,10 +23,16 @@
             <li onclick="deleteSelectedElement()"><i class="fas fa-trash-alt"></i> Eliminar</li>
             <li onclick="duplicateElement()"><i class="fas fa-clone"></i> Duplicar</li>
             <li onclick="changeBackgroundColor()"><i class="fas fa-palette"></i> Cambiar Color</li>
-            <!-- Puedes agregar más opciones aquí -->
+            <li onclick="formatText('bold')"><i class="fas fa-bold"></i> Negrita</li>
+            <li onclick="formatText('italic')"><i class="fas fa-italic"></i> Cursiva</li>
+            <li onclick="formatText('underline')"><i class="fas fa-underline"></i> Subrayado</li>
+            <li onclick="changeFontSize()"><i class="fas fa-text-height"></i> Tamaño de Fuente</li>
+            <li onclick="changeFontColor()"><i class="fas fa-palette"></i> Color de Fuente</li>
         </ul>
     </div>
     <input type="color" id="colorPicker" style="display:none" onchange="setBackgroundColor(this.value)">
+    <input type="color" id="fontColorPicker" style="display:none" onchange="setFontColor(this.value)">
+    <input type="number" id="fontSizePicker" style="display:none" onchange="setFontSize(this.value)">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="script.js"></script>

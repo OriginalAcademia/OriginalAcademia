@@ -3,10 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.addEventListener('mousedown', startDrag);
     canvas.addEventListener('mouseup', stopDrag);
     canvas.addEventListener('mousemove', drag);
+    canvas.addEventListener('click', selectElement);
 
     loadCanvasState();
 
     let draggingElement = null;
+    let selectedElement = null;
 
     function startDrag(event) {
         if (event.target.classList.contains('draggable')) {
@@ -27,6 +29,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (draggingElement) {
             saveCanvasState();
             draggingElement = null;
+        }
+    }
+
+    function selectElement(event) {
+        if (event.target.classList.contains('draggable')) {
+            if (selectedElement) {
+                selectedElement.classList.remove('selected');
+            }
+            selectedElement = event.target;
+            selectedElement.classList.add('selected');
+        } else {
+            if (selectedElement) {
+                selectedElement.classList.remove('selected');
+                selectedElement = null;
+            }
         }
     }
 
@@ -131,5 +148,13 @@ function addIframe() {
         canvas.appendChild(iframeElement);
         makeResizable(iframeElement);
         saveCanvasState();
+    }
+}
+
+function deleteSelectedElement() {
+    if (selectedElement) {
+        selectedElement.remove();
+        saveCanvasState();
+        selectedElement = null;
     }
 }
